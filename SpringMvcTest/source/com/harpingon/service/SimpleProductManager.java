@@ -7,7 +7,7 @@ import com.harpingon.domain.Product;
 public class SimpleProductManager implements ProductManager {
 
 	/**
-	 * 
+	 *  
 	 */
 	private static final long serialVersionUID = 1L;
 	private List<Product> products;
