@@ -2,6 +2,7 @@ package com.harpingon.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -26,16 +27,22 @@ public class JdbcProductDao extends JdbcDaoSupport implements ProductDao {
 	}
 
 	public void saveProduct(Product prod) {
-		logger.info("Saving product: " + prod.getDescription());
+		logger.info("Saving product [desc] : " + prod.getDescription());
+		logger.info("Saving product [price]: " + prod.getPrice());
+		logger.info("Roundedproduct [price]: " + roundTwoDecimals(prod.getPrice()));		
+		logger.info("Saving product [id]   : " + prod.getId());
 		int count = getJdbcTemplate()
 				.update("update products set description = :description, price = :price where id = :id",
 						new MapSqlParameterSource()
 								.addValue("description", prod.getDescription())
-								.addValue("price", prod.getPrice())
+								.addValue("price", roundTwoDecimals(prod.getPrice()))
 								.addValue("id", prod.getId()));
 		logger.info("Rows affected: " + count);
 	}
-
+	double roundTwoDecimals(double d) {
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+    return Double.valueOf(twoDForm.format(d));
+	}
 	private static class ProductMapper implements
 			ParameterizedRowMapper<Product> {
 

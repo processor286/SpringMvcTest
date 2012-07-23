@@ -34,7 +34,7 @@
     <tx:advice id="txAdvice">
         <tx:attributes>
             <tx:method name="save*"/>
-            <tx:method name="*" read-only="true"/>
+            <tx:method name="*" read-only="false"/>
         </tx:attributes>
     </tx:advice>
     
