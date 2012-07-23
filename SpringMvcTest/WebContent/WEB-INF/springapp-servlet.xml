@@ -5,7 +5,13 @@
 
 <!-- the application context definition for the springapp DispatcherServlet -->
 
- 
+ <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="messages"/>
+    </bean>
+    
+<bean name="/hello.htm" class="com.harpingon.web.InventoryController">
+        <property name="productManager" ref="productManager"/>
+</bean>
   
 
 

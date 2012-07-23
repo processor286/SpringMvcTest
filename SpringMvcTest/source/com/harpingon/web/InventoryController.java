@@ -1,4 +1,4 @@
-package com.harpingon;
+package com.harpingon.web;
 
 import org.springframework.web.servlet.mvc.Controller;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,6 +22,7 @@ import com.harpingon.service.ProductManager;
 public class InventoryController implements Controller {
 
 	protected final Log logger = LogFactory.getLog(getClass());
+	
 	private ProductManager productManager;
 
 	public ModelAndView handleRequest(HttpServletRequest request,
