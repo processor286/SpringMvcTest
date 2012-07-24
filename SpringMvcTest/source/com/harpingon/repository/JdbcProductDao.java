@@ -1,8 +1,8 @@
 package com.harpingon.repository;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -28,21 +28,15 @@ public class JdbcProductDao extends JdbcDaoSupport implements ProductDao {
 
 	public void saveProduct(Product prod) {
 		logger.info("Saving product [desc] : " + prod.getDescription());
-		logger.info("Saving product [price]: " + prod.getPrice());
-		logger.info("Roundedproduct [price]: " + roundTwoDecimals(prod.getPrice()));		
+		logger.info("Saving product [price]: " + prod.getPrice());		
 		logger.info("Saving product [id]   : " + prod.getId());
 		int count = getJdbcTemplate()
-				.update("update products set description = :description, price = :price where id = :id",
-						new MapSqlParameterSource()
-								.addValue("description", prod.getDescription())
-								.addValue("price", roundTwoDecimals(prod.getPrice()))
-								.addValue("id", prod.getId()));
+				.update("update products set description = ? , price = ? where id = ?",
+						new Object [] {prod.getDescription(), prod.getPrice(), prod.getId()});
+
 		logger.info("Rows affected: " + count);
 	}
-	double roundTwoDecimals(double d) {
-        DecimalFormat twoDForm = new DecimalFormat("#.##");
-    return Double.valueOf(twoDForm.format(d));
-	}
+
 	private static class ProductMapper implements
 			ParameterizedRowMapper<Product> {
 
@@ -50,7 +44,7 @@ public class JdbcProductDao extends JdbcDaoSupport implements ProductDao {
 			Product prod = new Product();
 			prod.setId(rs.getInt("id"));
 			prod.setDescription(rs.getString("description"));
-			prod.setPrice(new Double(rs.getDouble("price")));
+			prod.setPrice(rs.getInt("price"));
 			return prod;
 		}
 
